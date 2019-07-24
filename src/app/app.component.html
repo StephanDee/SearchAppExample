@@ -1,0 +1,57 @@
+<div style="background-color: white; padding: 8px 8px 0 8px; display: flex; justify-content: space-between;">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input id="searchInput" matInput placeholder="Product" aria-label="Product" [matAutocomplete]="auto"
+        [formControl]="productCtrl">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
+        <mat-option *ngFor="let product of filteredProducts | async" [value]="product.name"
+          [disabled]="product.insideBucket">
+          <img class="example-option-img" aria-hidden [src]="product.previewimage" height="25">
+          <span>{{product.name}}</span> |
+          <small>Diameter: {{product.diameter}}</small> |
+          <small>Length: {{product.length}}</small>
+        </mat-option>
+      </mat-autocomplete>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+
+  <button mat-icon-button style="margin-top: 4px">
+    <mat-icon>
+      menu
+    </mat-icon>
+  </button>
+</div>
+<p style="margin-left: 8px">Products ({{myProducts.length}})</p>
+<mat-card style="margin-left: auto; margin-right: auto; margin-bottom: 16px; max-width: 290px"
+  *ngFor="let myProduct of myProducts">
+  <div style="display: flex; justify-content: center">
+    <img aria-hidden style="max-height: 300px; max-width: 100%" [src]="myProduct.previewimage">
+  </div>
+  <mat-card-content style="display: flex; justify-content: flex-start">
+    <div style="margin-right: 8px">
+      <p>Name:</p>
+      <p>Diameter:</p>
+      <p>Length:</p>
+    </div>
+    <div>
+      <p>{{myProduct.name}}</p>
+      <p>{{myProduct.diameter}}</p>
+      <p>{{myProduct.length}}</p>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <div style="display: flex; justify-content: flex-end">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>
+          more_vert
+        </mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>move ...</button>
+        <button mat-menu-item>block ...</button>
+        <button mat-menu-item>assign ...</button>
+      </mat-menu>
+    </div>
+  </mat-card-actions>
+</mat-card>
